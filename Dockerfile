@@ -1,4 +1,5 @@
 FROM maven:3.5.3-jdk-8-alpine
+FROM docker:18.05.0-ce
 
 LABEL maintainer="Piotr Joński <p.jonski@pojo.pl>"
 
@@ -18,6 +19,7 @@ RUN apk add --update ca-certificates openssl curl bash git openssh libintl gette
     && rm /var/cache/apk/* \
     && rm -rf /tmp/* \
     && rm -rf /var/lib/apt/lists/* \
+    && rm -rf get_helm.sh \
     && apk del build_deps
 
 COPY config /root/.kube/config
