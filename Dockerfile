@@ -3,6 +3,7 @@ FROM maven:3.5.3-jdk-8-alpine
 LABEL maintainer="Piotr Joński <p.jonski@pojo.pl>"
 
 ENV M3_HOME=${MAVEN_HOME}
+ENV HELM_VERSION=v2.8.2
 
 ## install helm, kubectl
 RUN apk add --update ca-certificates openssl curl bash git openssh libintl gettext \
@@ -11,7 +12,7 @@ RUN apk add --update ca-certificates openssl curl bash git openssh libintl gette
     && chmod +x /usr/local/bin/kubectl \
     && curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh \
     && chmod 700 get_helm.sh \
-    && ./get_helm.sh &> /dev/null \
+    && ./get_helm.sh --version $HELM_VERSION \
     && helm init --client-only \
     && helm version --client \
     && apk add --virtual build_deps \
@@ -83,7 +84,5 @@ RUN rm /var/cache/apk/* \
     && apk del build_deps
 
 COPY config /root/.kube/config
-
-RUN which helm
 
 CMD bash
