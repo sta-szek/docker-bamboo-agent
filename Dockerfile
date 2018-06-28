@@ -1,4 +1,4 @@
-FROM maven:3.5.3-jdk-8-alpine
+FROM maven:3.5.4-jdk-8-alpine
 
 LABEL maintainer="Piotr Joński <p.jonski@pojo.pl>"
 
@@ -76,6 +76,8 @@ RUN set -ex; \
 	\
 	dockerd -v; \
 	docker -v
+
+RUN apk add ttf-dejavu fontconfig
 
 ## cleanup
 RUN rm /var/cache/apk/* \
