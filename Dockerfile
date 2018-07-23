@@ -86,5 +86,6 @@ RUN rm /var/cache/apk/* \
     && apk del build_deps
 
 COPY config /root/.kube/config
+COPY settings.xml /root/.m2/settings.xml
 
 CMD bash

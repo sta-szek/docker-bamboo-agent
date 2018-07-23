@@ -1,0 +1,9 @@
+<settings>
+    <servers>
+        <server>
+            <id>maven-public</id>
+            <username>${env.bamboo_NEXUS_MAVEN_USERNAME}</username>
+            <password>${env.bamboo_NEXUS_MAVEN_PASSWORD}</password>
+        </server>
+    </servers>
+</settings>
