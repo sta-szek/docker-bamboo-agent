@@ -3,7 +3,7 @@ FROM maven:3.5.4-jdk-8-alpine
 LABEL maintainer="Piotr Joński <p.jonski@pojo.pl>"
 
 ENV M3_HOME=${MAVEN_HOME}
-ENV HELM_VERSION=v2.8.2
+ENV HELM_VERSION=v2.10.0
 
 ## install helm, kubectl
 RUN apk add --update ca-certificates openssl curl bash git openssh libintl gettext \
