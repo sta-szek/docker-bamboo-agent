@@ -1,9 +1,9 @@
-FROM maven:3.5.4-jdk-8-alpine
+FROM maven:3.6.0-jdk-8-alpine
 
 LABEL maintainer="Piotr Joński <p.jonski@pojo.pl>"
 
 ENV M3_HOME=${MAVEN_HOME}
-ENV HELM_VERSION=v2.10.0
+ENV HELM_VERSION=v2.13.1
 
 ## install helm, kubectl
 RUN apk add --update ca-certificates openssl curl bash git openssh libintl gettext \
@@ -20,17 +20,17 @@ RUN apk add --update ca-certificates openssl curl bash git openssh libintl gette
     && rm -rf get_helm.sh
 
 ## install grails
-ENV GRAILS_VERSION=2.5.6
+ENV GRAILS_VERSION=3.3.9
 
 RUN wget https://github.com/grails/grails-core/releases/download/v$GRAILS_VERSION/grails-$GRAILS_VERSION.zip \
     && unzip grails-$GRAILS_VERSION.zip \
     && rm -rf grails-$GRAILS_VERSION.zip \
     && mv grails-$GRAILS_VERSION /usr/lib/jvm/grails
 
-RUN ls -al /usr/lib/jvm/grails
-
 ENV GRAILS_HOME /usr/lib/jvm/grails
 ENV PATH $GRAILS_HOME/bin:$PATH
+
+RUN grails --version
 
 ## install docker https://github.com/docker-library/docker/blob/master/18.05/Dockerfile
 
