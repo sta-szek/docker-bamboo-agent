@@ -87,15 +87,10 @@ RUN rm /var/cache/apk/* \
 
 COPY config /root/.kube/config
 COPY settings.xml /root/.m2/settings.xml
-
-CMD bash
-
-FROM node:alpine
+RUN apk add --update nodejs nodejs-npm
 
 RUN npm install -g redoc-cli
 
-WORKDIR /data
-EXPOSE 8080
+CMD bash
 
-ENTRYPOINT ["redoc-cli"]
-CMD []
+
