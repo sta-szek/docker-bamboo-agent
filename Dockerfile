@@ -92,5 +92,3 @@ RUN apk add --update nodejs nodejs-npm
 RUN npm install -g redoc-cli
 
 CMD bash
-
-
