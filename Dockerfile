@@ -91,6 +91,7 @@ RUN set -ex; \
 ## cleanup
 RUN rm /var/cache/apk/* \
     && rm -rf /tmp/* \
+	&& rm -f /plantuml.jar \
     && rm -rf /var/lib/apt/lists/* \
     && apk del build_deps
 
