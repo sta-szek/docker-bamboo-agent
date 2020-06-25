@@ -5,6 +5,17 @@ LABEL maintainer="Piotr Joński <p.jonski@pojo.pl>"
 ENV M3_HOME=${MAVEN_HOME}
 ENV HELM_VERSION=v2.13.1
 
+## install plantuml & graphviz
+
+ENV PLANTUML_VERSION=1.2020.9
+ENV LANG en_US.UTF-8
+RUN \
+  apk add --no-cache graphviz wget ca-certificates && \
+  apk add --no-cache graphviz wget ca-certificates ttf-dejavu fontconfig && \
+  wget "http://downloads.sourceforge.net/project/plantuml/${PLANTUML_VERSION}/plantuml.${PLANTUML_VERSION}.jar" -O plantuml.jar 
+
+RUN mkdir /plantuml && cp plantuml.jar /plantuml/plantuml.jar
+
 ## install helm, kubectl
 RUN apk add --update ca-certificates openssl curl bash git openssh libintl gettext \
     && curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
@@ -76,8 +87,6 @@ RUN set -ex; \
 	\
 	dockerd -v; \
 	docker -v
-
-RUN apk add ttf-dejavu fontconfig
 
 ## cleanup
 RUN rm /var/cache/apk/* \
