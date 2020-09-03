@@ -1,4 +1,4 @@
-FROM maven:3.6.0-jdk-8-alpine
+FROM maven:3.6.3-jdk-13
 
 LABEL maintainer="Piotr Joński <p.jonski@pojo.pl>"
 
