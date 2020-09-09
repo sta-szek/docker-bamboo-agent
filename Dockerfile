@@ -1,8 +1,41 @@
-FROM maven:3.6.0-jdk-8-alpine
+FROM alpine:3.11
+
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+## Get Java
+RUN wget --quiet https://cdn.azul.com/public_keys/alpine-signing@azul.com-5d5dc44c.rsa.pub -P /etc/apk/keys/ && \
+    echo "https://repos.azul.com/zulu/alpine" >> /etc/apk/repositories && \
+    apk --no-cache add zulu11-jdk
+
+ENV JAVA_HOME=/usr/lib/jvm/zulu11-ca
 
 LABEL maintainer="Piotr Joński <p.jonski@pojo.pl>"
 
+## Add curl
+RUN apk add --update \
+    curl \
+    && rm -rf /var/cache/apk/*
+
+## Setup Maven
+ARG MAVEN_VERSION=3.6.3
+ARG USER_HOME_DIR="/root"
+ARG SHA=c35a1803a6e70a126e80b2b3ae33eed961f83ed74d18fcd16909b2d44d7dada3203f1ffe726c17ef8dcca2dcaa9fca676987befeadc9b9f759967a8cb77181c0
+ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
+
+RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
+  && curl -fsSL -o /tmp/apache-maven.tar.gz ${BASE_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+  && echo "${SHA}  /tmp/apache-maven.tar.gz" | sha512sum -c - \
+  && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1 \
+  && rm -f /tmp/apache-maven.tar.gz \
+  && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
+
+ENV MAVEN_HOME /usr/share/maven
+ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
+
 ENV M3_HOME=${MAVEN_HOME}
+
 ENV HELM_VERSION=v2.13.1
 
 ## install plantuml & graphviz
