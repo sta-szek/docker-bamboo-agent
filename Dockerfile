@@ -49,8 +49,8 @@ RUN \
 
 RUN mkdir /plantuml && cp plantuml.jar /plantuml/plantuml.jar
 
-## install helm, kubectl
-RUN apk add --update ca-certificates openssl curl bash git openssh libintl gettext \
+## install helm, kubectl, jq
+RUN apk add --update ca-certificates openssl curl bash git openssh libintl gettext jq \
     && curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
     && mv kubectl /usr/local/bin \
     && chmod +x /usr/local/bin/kubectl \
